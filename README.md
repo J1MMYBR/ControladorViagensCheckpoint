@@ -8,7 +8,7 @@ DESCRIÇÃO
 
 COMO COMPILAR 
 
-    mingw-make 
+    mingw32-make 
 
     depois
 
