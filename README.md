@@ -1,3 +1,8 @@
+ALUNOS
+    ARTHUR BEZERRA DE OLIVEIRA -20230061953    
+    JOAO PEDRO QUEIROZ DE MEDEIROS - 20230042582
+    FELLIPE DOS SANTOS MORAES - 20230067465
+    
 DESCRIÇÃO
     Sistema de controle de viagens que permite:
         1️⃣ Cadastro de CIDADES
