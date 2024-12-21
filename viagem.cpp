@@ -11,6 +11,15 @@ using namespace std;
 Viagem::Viagem(Transporte *transporte, vector<Passageiro*> passageiros, Cidade *origem, Cidade *destino) 
     : transporte(transporte), passageiros(passageiros), origem(origem), destino(destino) {}
 
+    
+Cidade* Viagem::getOrigem() {
+    return origem;
+}
+
+Cidade* Viagem::getDestino() {
+    return destino;
+}
+
 void Viagem::iniciarViagem() {
     if (transporte == nullptr || origem == nullptr || destino == nullptr) { // Verifica se as informações essenciais estão presentes
         cout << "Erro: Informações insuficientes para iniciar a viagem." << endl;

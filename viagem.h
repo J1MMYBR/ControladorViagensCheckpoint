@@ -24,6 +24,10 @@ class Viagem {
         // Construtor da classe, inicializa os atributos principais da viagem
         Viagem(Transporte* transporte, vector<Passageiro*> passageiros, Cidade* origem, Cidade* destino);
 
+        Cidade* getOrigem();
+
+        Cidade* getDestino();
+
         // Método para iniciar a viagem, verifica condições iniciais e ajusta o estado
         void iniciarViagem();
 

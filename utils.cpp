@@ -135,7 +135,7 @@ void criarArquivos() {
     } else {
         arquivo.seekp(0, std::ios::end);
         if (arquivo.tellp() == 0){
-            arquivo << "Transporte, Origem, Destino, Proxima, Horas_Em_Transito, Em_Andamento \n";
+            arquivo << "Transporte, Origem, Destino \n";
             std::cout << "Arquivo criado!. \n";
         }
         arquivo.close();
@@ -315,7 +315,7 @@ void cadastroTrajeto(){
         }
 
         // Adiciona trajeto para linha do arquivo "trajeto.csv"
-        arqTrajeto << trajeto.getOrigem()->getNome() << "," << trajeto.getDestino()->getNome() << "," << trajeto.getTipoTrajeto() << "," << trajeto.getDistancia() << "\n";
+        arqTrajeto << trajeto.getOrigem()->getNome() << ", " << trajeto.getDestino()->getNome() << ", " << trajeto.getTipoTrajeto() << ", " << trajeto.getDistancia() << "\n";
 
         
         cout << "Trajeto de '"<< trajeto.getOrigem()->getNome() << "' para '" << trajeto.getDestino()->getNome() << "' adicionado com sucesso." << endl;
@@ -381,8 +381,8 @@ void cadastroTransporte() {
         return;
     }
 
-    Cidade cidade(localAtual);
-    Transporte transporte(nome, tipoTransporte, capacidade, velocidade, distanciaDescanso, tempoDescanso, &cidade);
+    Cidade* cidadeAtual = new Cidade(localAtual);
+    Transporte transporte(nome, tipoTransporte, capacidade, velocidade, distanciaDescanso, tempoDescanso, cidadeAtual);
     
     ofstream arqTransportes("transportes.csv", ios::app);
     if (!arqTransportes) {
@@ -390,11 +390,13 @@ void cadastroTransporte() {
         return;
     }
 
-    arqTransportes << nome << "," << tipoTransporte << "," << capacidade << "," << velocidade << "," << distanciaDescanso << "," << tempoDescanso << "," << localAtual << "\n";
+    arqTransportes << nome << ", " << tipoTransporte << ", " << capacidade << ", " << velocidade << ", " << distanciaDescanso << ", " << tempoDescanso << ", " << transporte.getLocalAtual()->getNome() << "\n";
 
     cout << "Transporte '" << nome << "' cadastrado com sucesso." << endl;
 
     arqTransportes.close();
+
+    delete(cidadeAtual);
 }
 
 void cadastroViagem() {
@@ -435,8 +437,8 @@ void cadastroViagem() {
         return;
     }
 
-    Cidade cidadeOrigem(origem);
-    Cidade cidadeDestino(destino);
+    Cidade* cidadeOrigem = new Cidade(origem);
+    Cidade* cidadeDestino = new Cidade(destino);
     
     ifstream arqTransportes("transportes.csv");
     if (!arqTransportes.is_open()) {
@@ -458,10 +460,10 @@ void cadastroViagem() {
         return;
     }
 
-    Transporte transporte(nomeTransporte, 'T', 0, 0, 0, 0, &cidadeOrigem);
+    Transporte transporte(nomeTransporte, 'T', 0, 0, 0, 0, cidadeOrigem);
     vector<Passageiro*> passageiros;
     
-    Viagem viagem(&transporte, passageiros, &cidadeOrigem, &cidadeDestino);
+    Viagem viagem(&transporte, passageiros, cidadeOrigem, cidadeDestino);
     
     ofstream arqViagens("viagens.csv", ios::app);
     if (!arqViagens) {
@@ -469,10 +471,13 @@ void cadastroViagem() {
         return;
     }
 
-    arqViagens << nomeTransporte << "," << origem << "," << destino << "," << "\n";
+    arqViagens << nomeTransporte << ", " << viagem.getOrigem()->getNome() << ", " << viagem.getDestino()->getNome() << "\n";
 
     
-    cout << "Viagem de '" << origem << "' para '" << destino << "' cadastrada com sucesso." << endl;
+    cout << "Viagem de '" << viagem.getOrigem()->getNome() << "' para '" << viagem.getDestino()->getNome() << "' cadastrada com sucesso." << endl;
 
     arqViagens.close();
+
+    delete(cidadeOrigem);
+    delete(cidadeDestino);
 }
