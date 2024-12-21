@@ -196,13 +196,12 @@ void cadastroPassageiro() {
     }
 
     if (!cidadeEncontrada) {
-        
         cout << "A cidade '" << localAtual << "' não foi cadastrada. Cadastre-a primeiro." << endl;
         return;
     }
 
-    Cidade cidade(localAtual);
-    Passageiro passageiro(nome, &cidade);
+    Cidade* cidadeAtual = new Cidade(localAtual);
+    Passageiro passageiro(nome, cidadeAtual);
     
     ofstream arqPassageiros("passageiros.csv", ios::app);
     if (!arqPassageiros) {
@@ -210,12 +209,16 @@ void cadastroPassageiro() {
         return;
     }
 
-    arqPassageiros << nome << "," << localAtual << "\n";
+    cout << passageiro.getNome() << endl;
+
+    arqPassageiros << nome << ", " << passageiro.getLocalAtual()->getNome() << "\n";
 
     
     cout << "Passageiro '" << nome << "' cadastrado com sucesso." << endl;
 
     arqPassageiros.close();
+    
+    delete cidadeAtual;
 }
 
 void cadastroTrajeto(){
